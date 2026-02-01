@@ -1,5 +1,6 @@
 package dao;
 
+import beans.Empresa;
 import beans.Funcionario;
 import conexao.Conexao;
 import java.sql.Connection;
@@ -66,4 +67,48 @@ public class FuncionarioDAO {
                     System.out.println("Erro ao editar funcionário: " + e.getMessage());
                 }
             }
+    
+    public Funcionario getFuncionario(int id) {
+    // código responsavel por buscar o funcionário dentro do banco de dados
+    String sql = "SELECT * FROM funcionario WHERE id = ?";
+
+    try {
+        PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        // PreparedStatement stmt = this.conn.prepareStatement(sql);
+
+        // Passar o parâmetro da consulta
+        stmt.setInt(1, id);
+
+        // Método para poder executar o SELECT.
+        // Os resultados obtidos pela consulta serão armazenados na variavel ResultSet
+        // Faça a importação da classe import java.sql.ResultSet;
+        ResultSet rs = stmt.executeQuery();
+
+        rs.next();
+
+        // Criar um objeto do tipo empresa, que irá pegar os dados do rs(ResultSet) e armazenar na variavel
+        Funcionario funcionario = new Funcionario();
+
+        rs.first(); // irá posicionar o ResultSet na primeira posição
+
+        // Atribuir os dados do "rs" para dentro do objeto funcionario
+        // Iremos definir o que cada atributo irá mostrar, vinculando com a sua respectiva coluna no banco de dados
+        funcionario.setId(id);
+        funcionario.setNomefunc(rs.getString("nomefunc"));
+
+        Empresa empresaid = new Empresa();
+        empresaid.setId(rs.getInt("empresaid"));
+        funcionario.setEmpresaid(empresaid);
+
+        funcionario.setDataAdmissao(rs.getDate("admissao"));
+
+        // retornar o objeto funcionario, pois o método pede esse retorno
+        return funcionario;
+
+    // tratando o erro, caso ele ocorra
+    } catch (Exception e) {
+        System.out.println("erro: " + e.getMessage());
+        return null;
+    }
+}
 }

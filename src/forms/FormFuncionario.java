@@ -55,6 +55,11 @@ public class FormFuncionario extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         lblData = new javax.swing.JLabel();
         txtDataAdmissao = new javax.swing.JTextField();
+        lblId = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
+        lvlPesquisar = new javax.swing.JLabel();
+        txtPesquisar = new javax.swing.JTextField();
+        btnPesquisarID = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Formulário de Funcionários");
@@ -77,6 +82,20 @@ public class FormFuncionario extends javax.swing.JFrame {
 
         lblData.setText("Data da Admissão:");
 
+        lblId.setText("ID:");
+
+        txtID.setEditable(false);
+
+        lvlPesquisar.setLabelFor(txtPesquisar);
+        lvlPesquisar.setText("ID do Funcionário:");
+
+        btnPesquisarID.setText("Pesquisar");
+        btnPesquisarID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -86,28 +105,46 @@ public class FormFuncionario extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(76, 76, 76)
                         .addComponent(lblFormulário))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblNome)
-                            .addComponent(lblEmpresa)
-                            .addComponent(lblData))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbEmpresa, 0, 188, Short.MAX_VALUE)
-                            .addComponent(txtNomeFunc)
-                            .addComponent(txtDataAdmissao))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGap(158, 158, 158)
+                            .addComponent(btnSalvar)
+                            .addGap(127, 127, 127))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(20, 20, 20)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(lblNome)
+                                .addComponent(lblEmpresa)
+                                .addComponent(lblData)
+                                .addComponent(lblId)
+                                .addComponent(lvlPesquisar))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cmbEmpresa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtNomeFunc)
+                                .addComponent(txtDataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtPesquisar)
+                                        .addComponent(txtID))
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnPesquisarID))))))
                 .addContainerGap(23, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSalvar)
-                .addGap(150, 150, 150))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(lblFormulário)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lvlPesquisar)
+                    .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPesquisarID))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblId)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNome)
@@ -122,7 +159,7 @@ public class FormFuncionario extends javax.swing.JFrame {
                     .addComponent(txtDataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnSalvar)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -171,6 +208,21 @@ public class FormFuncionario extends javax.swing.JFrame {
             
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void btnPesquisarIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarIDActionPerformed
+        // Pegar o ID que será pesquisado
+        int id = Integer.parseInt(txtPesquisar.getText());
+
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+        Funcionario f = funcionarioDAO.getFuncionario(id);
+
+        // Preencher os campos
+        txtID.setText(String.valueOf(f.getId()));
+        txtNomeFunc.setText(f.getNomefunc());
+        txtDataAdmissao.setText(String.valueOf(f.getDataAdmissao()));
+        cmbEmpresa.setSelectedItem(f.getEmpresaid());
+    }//GEN-LAST:event_btnPesquisarIDActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -197,14 +249,19 @@ public class FormFuncionario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPesquisarID;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox cmbEmpresa;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblEmpresa;
     private javax.swing.JLabel lblFormulário;
+    private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblNome;
+    private javax.swing.JLabel lvlPesquisar;
     private javax.swing.JTextField txtDataAdmissao;
+    private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNomeFunc;
+    private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
 }
