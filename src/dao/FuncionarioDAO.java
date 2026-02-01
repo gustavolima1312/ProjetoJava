@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FuncionarioDAO {
     private Conexao conexao;
@@ -108,6 +110,39 @@ public class FuncionarioDAO {
     // tratando o erro, caso ele ocorra
     } catch (Exception e) {
         System.out.println("erro: " + e.getMessage());
+        return null;
+    }
+}
+    
+    public List<Funcionario> getFuncionarios() {
+    String sql = "SELECT funcionario.id as id, nomefunc, empresaid, nomeempresa, admissao FROM funcionario "
+            + "INNER JOIN empresa ON funcionario.empresaid = empresa.id";
+
+    try {
+        PreparedStatement stmt = this.conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        List<Funcionario> lista = new ArrayList<>();
+
+        while (rs.next()) {
+            Funcionario funcionario = new Funcionario();
+            Empresa empresa = new Empresa();
+
+            funcionario.setId(rs.getInt("id"));
+            funcionario.setNomefunc(rs.getString("nomefunc"));
+            funcionario.setDataAdmissao(rs.getDate("admissao"));
+
+            empresa.setId(rs.getInt("empresaid"));
+            empresa.setNomeempresa(rs.getString("nomeempresa"));
+
+            funcionario.setEmpresaid(empresa);
+
+            lista.add(funcionario);
+        }
+
+        return lista;
+
+    } catch (Exception e) {
         return null;
     }
 }
