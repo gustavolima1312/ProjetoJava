@@ -5,6 +5,7 @@ import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 
 public class FuncionarioDAO {
     private Conexao conexao;
@@ -16,12 +17,14 @@ public class FuncionarioDAO {
     }
     
     public void inserir(Funcionario funcionario) {
-        String sql = "INSERT INTO funcionario(nomefunc, empresaid) VALUES"
-                + "(?, ?)";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        String sql = "INSERT INTO funcionario(nomefunc, empresaid, admissao) VALUES"
+                + "(?, ?, ?)";
             try {
                 PreparedStatement stmt = this.conn.prepareStatement(sql);
                 stmt.setString(1, funcionario.getNomefunc());
                 stmt.setInt(2, funcionario.getEmpresaid().getId());
+                stmt.setString(3, sdf.format(funcionario.getDataAdmissao()));
                 stmt.execute();
                 
             } catch (Exception e) {

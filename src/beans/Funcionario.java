@@ -1,9 +1,20 @@
 package beans;
 
+import java.util.Date;
+
 public class Funcionario {
     private int id;
     private String nomefunc;
     private Empresa empresaid;
+
+    public Date getDataAdmissao() {
+        return dataAdmissao;
+    }
+
+    public void setDataAdmissao(Date dataAdmissao) {
+        this.dataAdmissao = dataAdmissao;
+    }
+    private Date dataAdmissao;
 
     public int getId() {
         return id;

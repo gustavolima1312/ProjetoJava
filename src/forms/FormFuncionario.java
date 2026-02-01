@@ -9,6 +9,8 @@ import dao.EmpresaDAO;
 import java.util.List;
 import beans.Funcionario;
 import dao.FuncionarioDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -51,6 +53,8 @@ public class FormFuncionario extends javax.swing.JFrame {
         cmbEmpresa = new javax.swing.JComboBox();
         lblEmpresa = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
+        lblData = new javax.swing.JLabel();
+        txtDataAdmissao = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Formulário de Funcionários");
@@ -71,6 +75,8 @@ public class FormFuncionario extends javax.swing.JFrame {
             }
         });
 
+        lblData.setText("Data da Admissão:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -84,16 +90,18 @@ public class FormFuncionario extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblNome)
-                            .addComponent(lblEmpresa))
+                            .addComponent(lblEmpresa)
+                            .addComponent(lblData))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbEmpresa, 0, 188, Short.MAX_VALUE)
-                            .addComponent(txtNomeFunc))))
+                            .addComponent(txtNomeFunc)
+                            .addComponent(txtDataAdmissao))))
                 .addContainerGap(23, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnSalvar)
-                .addGap(152, 152, 152))
+                .addGap(150, 150, 150))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,8 +117,12 @@ public class FormFuncionario extends javax.swing.JFrame {
                     .addComponent(cmbEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblEmpresa))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblData)
+                    .addComponent(txtDataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(btnSalvar)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,7 +155,13 @@ public class FormFuncionario extends javax.swing.JFrame {
         Funcionario funcionario = new Funcionario();
         funcionario.setNomefunc(nomefunc);
         funcionario.setEmpresaid(empresaid);
-                
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            funcionario.setDataAdmissao(sdf.parse(txtDataAdmissao.getText()));
+        } catch (ParseException ex){
+            System.out.println("Erro ao converter o texto pra date");
+        }
         //Chamando o método de inserção
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         funcionarioDAO.inserir(funcionario);
@@ -182,9 +200,11 @@ public class FormFuncionario extends javax.swing.JFrame {
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox cmbEmpresa;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblEmpresa;
     private javax.swing.JLabel lblFormulário;
     private javax.swing.JLabel lblNome;
+    private javax.swing.JTextField txtDataAdmissao;
     private javax.swing.JTextField txtNomeFunc;
     // End of variables declaration//GEN-END:variables
 }
